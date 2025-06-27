@@ -11,6 +11,10 @@ const levelSchema = new mongoose.Schema(
             type: [String], // Defines an array of strings
             required: true,
         },
+        hint: {
+            type: [String], // Defines an array of strings
+            required: true,
+        },
         answer: {
             type: String,
             required: [true, 'An answer is required.'],
