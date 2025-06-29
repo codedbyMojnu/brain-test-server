@@ -9,7 +9,18 @@ exports.register = async (req, res) => {
         await user.save();
         // Auto-create profile data after user registration
         await ProfileData.create({ username: user.username });
-        res.status(201).json({ message: 'User created' });
+
+        // Generate token for immediate login
+        const token = jwt.sign({
+            userId: user._id.toString(),
+            username: user.username,
+            role: user.role
+        }, process.env.JWT_SECRET);
+
+        res.status(201).json({
+            message: 'User created',
+            token
+        });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
@@ -21,6 +32,10 @@ exports.login = async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
         return res.status(401).json({ error: 'Invalid credentials' });
     }
-    const token = jwt.sign({ username: user.username, role: user.role }, process.env.JWT_SECRET);
+    const token = jwt.sign({
+        userId: user._id.toString(),
+        username: user.username,
+        role: user.role
+    }, process.env.JWT_SECRET);
     res.json({ token });
 };

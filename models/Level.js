@@ -9,6 +9,7 @@ const levelSchema = new mongoose.Schema(
         },
         options: {
             type: [String], // Defines an array of strings
+            default: [], // Default to empty array
             trim: true,
         },
         hint: {
@@ -24,6 +25,12 @@ const levelSchema = new mongoose.Schema(
             type: String,
             required: [true, 'An explanation is required to help users learn.'],
             trim: true,
+        },
+        category: {
+            type: String,
+            enum: ['HTTP', 'REST', 'API', 'Web Development', 'Programming', 'General', 'Advanced'],
+            default: 'General',
+            required: true
         },
     },
     {

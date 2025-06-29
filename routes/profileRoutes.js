@@ -12,6 +12,9 @@ router.put('/:username', profileController.replaceProfile);
 router.patch('/:username', profileController.updateProfile);
 router.delete('/:username', authenticate, authorize('admin'), profileController.deleteProfile);
 
+// Daily streak endpoint
+router.post('/:username/daily-streak', authenticate, profileController.checkDailyStreak);
+
 // GET all profiles (public)
 router.get('/', profileController.getAllProfiles);
 
