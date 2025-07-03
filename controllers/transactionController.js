@@ -58,4 +58,15 @@ exports.updateTransactionById = async (req, res) => {
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
+};
+
+// User: Get all transactions for a specific user
+exports.getUserTransactions = async (req, res) => {
+    try {
+        const { username } = req.params;
+        const transactions = await Transaction.find({ username });
+        res.json(transactions);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 }; 

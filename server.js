@@ -13,8 +13,10 @@ const chatController = require('./controllers/chatController');
 const ChatMessage = require('./models/ChatMessage');
 const http = require('http');
 const socketIo = require('socket.io');
+const surveyRoutes = require('./routes/surveyRoutes');
 
 dotenv.config();
+console.log('SENDGRID_API_KEY:', process.env.SENDGRID_API_KEY ? process.env.SENDGRID_API_KEY + '...' : 'NOT SET');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
@@ -38,6 +40,7 @@ app.use('/api/transactions', transactionRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/puzzles', puzzleRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/survey', surveyRoutes);
 
 // WebSocket connection handling
 io.on('connection', (socket) => {

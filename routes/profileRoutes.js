@@ -10,6 +10,7 @@ router.post('/', authenticate, profileController.createProfile);
 router.get('/:username', profileController.getProfile);
 router.put('/:username', profileController.replaceProfile);
 router.patch('/:username', profileController.updateProfile);
+router.patch('/:username/wrong-answer', profileController.addWrongAnswer);
 router.delete('/:username', authenticate, authorize('admin'), profileController.deleteProfile);
 
 // Daily streak endpoint

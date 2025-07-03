@@ -12,4 +12,7 @@ router.get('/', transactionController.getAllTransactions);
 router.put('/:id', transactionController.updateTransactionById);
 router.patch('/:id', transactionController.updateTransactionById);
 
+// User: Get all transactions for a specific user
+router.get('/user/:username', transactionController.getUserTransactions);
+
 module.exports = router; 

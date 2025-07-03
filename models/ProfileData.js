@@ -15,7 +15,22 @@ const ProfileDataSchema = new mongoose.Schema({
     // Rewards field
     rewards: { type: [String], default: [] },
     // Leaderboard notifications count for frontend badge
-    leaderboardNotifications: { type: Number, default: 0 }
+    leaderboardNotifications: { type: Number, default: 0 },
+    // Wrong answers field
+    wrongAnswers: {
+        type: [
+            {
+                question: String,
+                options: [String],
+                hint: String,
+                answer: String,
+                explanation: String,
+                category: String,
+                levelNumber: Number
+            }
+        ],
+        default: []
+    }
 });
 
 module.exports = mongoose.model('ProfileData', ProfileDataSchema); 

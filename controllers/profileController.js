@@ -2,6 +2,7 @@ const ProfileData = require('../models/ProfileData');
 const Leaderboard = require('../models/Leaderboard');
 const ACHIEVEMENTS = require('../config/achievements');
 const REWARDS = require('../config/rewards');
+const Level = require('../models/Level');
 
 // Function to check and award achievements
 const checkAchievements = async (profile) => {
@@ -27,8 +28,6 @@ const checkAchievements = async (profile) => {
         const achievementIds = newAchievements.map(a => a.id);
         profile.achievements.push(...achievementIds);
         profile.totalPoints += totalPointsEarned;
-        profile.hintPoints += totalPointsEarned;
-
         await profile.save();
     }
 
@@ -189,8 +188,10 @@ exports.updateProfile = async (req, res) => {
         // Check for achievements
         const achievementResult = await checkAchievements(profile);
 
-        // Check for rewards
-        const rewardResult = await checkRewards(profile);
+        // Get total number of levels
+        const totalLevels = await Level.countDocuments();
+        // Check for rewards with correct totalLevels
+        const rewardResult = await checkRewards(profile, totalLevels);
 
         // Emit WebSocket event for profile update
         const io = req.app.get('io');
@@ -274,7 +275,6 @@ exports.checkDailyStreak = async (req, res) => {
             // Award 10 points for daily login
             pointsEarned = 10;
             profile.totalPoints += pointsEarned;
-            profile.hintPoints += pointsEarned;
             streakUpdated = true;
         } else {
             // Already played today
@@ -291,8 +291,10 @@ exports.checkDailyStreak = async (req, res) => {
         // Check for achievements
         const achievementResult = await checkAchievements(profile);
 
-        // Check for rewards
-        const rewardResult = await checkRewards(profile);
+        // Get total number of levels
+        const totalLevels = await Level.countDocuments();
+        // Check for rewards with correct totalLevels
+        const rewardResult = await checkRewards(profile, totalLevels);
 
         // Emit WebSocket event for profile update
         const io = req.app.get('io');
@@ -318,6 +320,28 @@ exports.checkDailyStreak = async (req, res) => {
                 rewards: profile.rewards
             }
         });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// PATCH /api/profile/:username/wrong-answer
+exports.addWrongAnswer = async (req, res) => {
+    try {
+        const { wrongAnswer } = req.body;
+        if (!wrongAnswer) {
+            return res.status(400).json({ error: 'Missing wrongAnswer in request body' });
+        }
+        const profile = await ProfileData.findOne({ username: req.params.username });
+        if (!profile) return res.status(404).json({ error: 'Profile not found' });
+        profile.wrongAnswers.push(wrongAnswer);
+        await profile.save();
+        // Optionally emit WebSocket event
+        const io = req.app.get('io');
+        if (io) {
+            io.to(`user-${req.params.username}`).emit('profile-updated', profile);
+        }
+        res.json({ message: 'Wrong answer added', profile });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
