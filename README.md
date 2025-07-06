@@ -5,6 +5,7 @@ A comprehensive Node.js backend server for a quiz/gaming application with real-t
 ## 📋 Table of Contents
 
 - [Overview](#overview)
+- [Project Structure](#project-structure)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Prerequisites](#prerequisites)
@@ -22,6 +23,51 @@ A comprehensive Node.js backend server for a quiz/gaming application with real-t
 ## 🎯 Overview
 
 This server provides a complete backend solution for a quiz application with features including user authentication, profile management, real-time chat, leaderboards, puzzle management, and transaction processing. Built with Express.js, MongoDB, and Socket.io for real-time communication.
+
+### 🔗 Related Projects
+
+- **Frontend Repository**: [mojnu6-frontend](https://github.com/codedbyMojnu/mojnu6-frontend)
+- **Frontend Live**: [mojnu6.vercel.app](https://mojnu6.vercel.app)
+- **Server Live**: [brain-test-server.onrender.com](https://brain-test-server.onrender.com)
+
+## 🏗 Project Structure
+
+```
+mojnu6-server/
+├── controllers/          # Request handlers
+│   ├── authController.js
+│   ├── chatController.js
+│   ├── leaderboardController.js
+│   ├── levelController.js
+│   ├── profileController.js
+│   ├── puzzleController.js
+│   ├── surveyController.js
+│   └── transactionController.js
+├── middleware/          # Custom middleware
+│   └── authMiddleware.js
+├── models/             # Database models
+│   ├── ChatMessage.js
+│   ├── Leaderboard.js
+│   ├── Level.js
+│   ├── ProfileData.js
+│   ├── Puzzle.js
+│   ├── Survey.js
+│   ├── Transaction.js
+│   └── User.js
+├── routes/             # API route definitions
+│   ├── authRoutes.js
+│   ├── chatRoutes.js
+│   ├── leaderboardRoutes.js
+│   ├── levelRoutes.js
+│   ├── profileRoutes.js
+│   ├── puzzleRoutes.js
+│   ├── surveyRoutes.js
+│   └── transactionRoutes.js
+├── config/             # Configuration files
+├── server.js           # Main server file
+├── package.json        # Dependencies and scripts
+└── README.md          # This file
+```
 
 ## ✨ Features
 
@@ -64,8 +110,8 @@ This server provides a complete backend solution for a quiz application with fea
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd server
+   git clone https://github.com/codedbyMojnu/mojnu6-server.git
+   cd mojnu6-server
    ```
 
 2. **Install dependencies**
@@ -281,19 +327,6 @@ npm start
 npm test
 ```
 
-### Project Structure
-
-```
-server/
-├── controllers/          # Request handlers
-├── middleware/          # Custom middleware
-├── models/             # Database models
-├── routes/             # API route definitions
-├── server.js           # Main server file
-├── package.json        # Dependencies and scripts
-└── README.md          # This file
-```
-
 ### Code Style
 
 - Use ES6+ features
@@ -353,15 +386,29 @@ CMD ["npm", "start"]
 
 ## 📄 License
 
-This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+### Related Project Licenses
+
+- **Frontend**: [MIT License](https://github.com/codedbyMojnu/mojnu6-frontend/blob/main/LICENSE)
+- **Server**: [MIT License](LICENSE)
 
 ## 📞 Support
 
 For support and questions:
-- Create an issue in the repository
+- Create an issue in the [repository](https://github.com/codedbyMojnu/mojnu6-server)
 - Contact the development team
 - Check the documentation for common issues
+
+## 🔗 Links
+
+- **Frontend Repository**: [mojnu6-frontend](https://github.com/codedbyMojnu/mojnu6-frontend)
+- **Frontend Live**: [mojnu6.vercel.app](https://mojnu6.vercel.app)
+- **Server Live**: [brain-test-server.onrender.com](https://brain-test-server.onrender.com)
+- **Postman Collection**: [Download Collection](postman_collection.json)
 
 ---
 
 **Built with ❤️ using Node.js, Express, and MongoDB**
+
+*Part of the [mojnu6](https://github.com/codedbyMojnu) project ecosystem*
