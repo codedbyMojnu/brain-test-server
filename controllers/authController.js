@@ -7,6 +7,17 @@ const crypto = require('crypto');
 
 exports.register = async (req, res) => {
     try {
+        // Check if user is trying to register as admin
+        if (req.body.role === 'admin') {
+            // Check if an admin already exists
+            const existingAdmin = await User.findOne({ role: 'admin' });
+            if (existingAdmin) {
+                return res.status(403).json({
+                    error: 'Admin registration is not allowed. An admin already exists in the system.'
+                });
+            }
+        }
+
         const user = new User(req.body);
         await user.save();
         // Auto-create profile data after user registration
@@ -91,6 +102,35 @@ exports.resetPassword = async (req, res) => {
         res.json({ message: 'Password has been reset. You can now log in.' });
     } catch (err) {
         console.error('ResetPassword error:', err);
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Helper function to check if admin exists
+const checkAdminExists = async () => {
+    const admin = await User.findOne({ role: 'admin' });
+    return !!admin;
+};
+
+// GET /api/auth/admin-status
+exports.getAdminStatus = async (req, res) => {
+    try {
+        const adminExists = await checkAdminExists();
+        res.json({
+            adminExists,
+            message: adminExists ? 'Admin exists in the system' : 'No admin found in the system'
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// POST /api/auth/check-admin
+exports.checkAdminExists = async (req, res) => {
+    try {
+        const adminExists = await checkAdminExists();
+        res.json({ adminExists });
+    } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
